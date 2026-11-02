@@ -27,9 +27,26 @@ await click('next');assert.equal(JSON.parse(stored).index,0);
 await click(null,3);await click('next');launch();assert.equal(JSON.parse(stored).index,1);assert.match(app.innerHTML,/理想的周末/);
 await click('prev');assert.match(app.innerHTML,/aria-pressed="true"/);await click(null,0);await click('next');
 for(let i=1;i<18;i++){await click(null,3);await click('next');}
-assert.match(app.innerHTML,/演示价格，不实际收费/);assert.doesNotMatch(app.innerHTML,/class="full-report"/);
-await click('unlock');assert.match(app.innerHTML,/已开启演示阅读 · 未收费/);launch();assert.match(app.innerHTML,/class="full-report"/);
+assert.match(app.innerHTML,/class="full-report"/);
+assert.equal((app.innerHTML.match(/class="report-section"/g)||[]).length,6);
+assert.doesNotMatch(app.innerHTML,/9\.9|付费|收费|解锁|演示阅读/);
+launch();assert.match(app.innerHTML,/class="full-report"/);
+for(let m=0;m<8;m++){
+ const key=m.toString(2).padStart(3,'0');
+ stored=JSON.stringify({answers:questions.map(q=>key[q.dimension]==='1'?3:0),index:17,view:'result',unlocked:m%2===1});
+ launch();assert.match(app.innerHTML,/class="full-report"/);
+ assert.ok(app.innerHTML.includes(types[key].name));
+ assert.equal((app.innerHTML.match(/class="report-section"/g)||[]).length,6);
+ assert.doesNotMatch(app.innerHTML,/9\.9|付费|收费|解锁|演示阅读/);
+}
+await click('home');await click('start');assert.match(app.innerHTML,/class="full-report"/);
+const revised=Array(18).fill(0),lastDimension=questions[17].dimension;
+questions.flatMap((q,i)=>q.dimension===lastDimension&&i!==17?[i]:[]).slice(0,3).forEach(i=>revised[i]=3);revised[17]=1;
+stored=JSON.stringify({answers:revised,index:17,view:'quiz'});launch();
+const previous=calculate(revised).key;await click(null,0);await click('next');
+assert.notEqual(calculate(JSON.parse(stored).answers).key,previous);
+assert.match(app.innerHTML,/class="full-report"/);launch();assert.match(app.innerHTML,/class="full-report"/);
 await click('copy');assert.match(status.textContent,/已复制/);clipboardFails=true;await click('copy');assert.match(status.textContent,/复制失败/);
-await click('restart');assert.equal(JSON.parse(stored).view,'result');confirmValue=true;await click('restart');assert.equal(JSON.parse(stored).unlocked,false);assert.ok(JSON.parse(stored).answers.every(v=>v===null));
+await click('restart');assert.equal(JSON.parse(stored).view,'result');confirmValue=true;await click('restart');assert.ok(!('unlocked' in JSON.parse(stored)));assert.ok(JSON.parse(stored).answers.every(v=>v===null));
 stored='坏数据';launch();assert.match(app.innerHTML,/你在爱里/);
-console.log('通过：计分边界、8类报告、未答拦截、返回修改、刷新恢复、演示解锁持久化、重新测试确认、复制成功与失败、损坏缓存恢复。');
+console.log('通过：计分边界、8类报告、未答拦截、返回修改、刷新恢复、直接完整分析、旧缓存兼容、修改结果更新、重新测试确认、复制成功与失败、损坏缓存恢复。');

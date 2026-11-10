@@ -1,0 +1,18 @@
+:root {
+ color-scheme: dark;
+ --color-paper:#0c1220; --color-paper-2:#141e30; --color-paper-3:#1b2c3b;
+ --color-ink:#edf4ff; --color-ink-2:#d5dfed; --color-muted:#a6b5cd; --color-rule:#2a3850;
+ --color-accent:#80efcf; --color-accent-ink:#0c1220; --color-focus:#80efcf;
+ --color-sheet:#f0f0e6; --color-sheet-ink:#152c32; --color-sheet-muted:#485e60; --color-sheet-rule:#c6d0c7; --color-sheet-accent:#275e54;
+ --mask-solid:#000; --mask-clear:transparent;
+ --color-error:#ffb4a8; --color-success:#80efcf;
+ --font-display:'Smiley Sans','Microsoft YaHei',sans-serif;
+ --font-body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+ --display-weight:400; --tracking-display:0;
+ --space-3xs:2px; --space-2xs:4px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:24px; --space-xl:40px; --space-2xl:64px; --space-3xl:96px; --space-4xl:144px;
+ --text-xs:.8125rem; --text-sm:.875rem; --text-md:1rem; --text-lg:1.25rem;
+ --text-display:clamp(3rem,6vw,5.5rem); --text-section:clamp(2rem,4vw,3.5rem); --text-title:clamp(1.25rem,2vw,1.625rem); --text-lead:clamp(1.0625rem,1.5vw,1.25rem);
+ --container:1280px; --gutter:48px; --gap-columns:40px; --section-gap:144px; --section-gap-s:120px;
+ --radius-card:4px; --radius-control:4px; --radius-pill:999px;
+ --dur-micro:120ms; --dur-short:220ms; --ease-out:cubic-bezier(.16,1,.3,1); --z-toast:500;
+}
